@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Salty-Taste 과제_안지원(9기)</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        * {
+            font-family: 'Black Han Sans', sans-serif;
+            width: 500px;
+            margin: auto;
+            text-align: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-weight: lighter;
+            background-color: lightyellow;
+        }
+
+        .img {
+            background-image: url('https://scontent.ficn6-1.fna.fbcdn.net/v/t1.0-9/74611496_3184133558294594_921823277347766272_o.jpg?_nc_cat=107&_nc_sid=730e14&_nc_ohc=ZC4Zx7O6FsgAX8r85Dx&_nc_ht=scontent.ficn6-1.fna&oh=6c46963939212ea4ddc39ae3513276b3&oe=5F337ECF');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+
+            width: 500px;
+            height: 300px
+        }
+
+
+        h2, h4 {
+            display: inline
+        }
+
+        .order {
+            text-align: center
+        }
+        h5 {
+           text-align: left;
+        }
+
+
+    </style>
+
+    <script>
+        function Click() {
+            alert('주문이 완료되었습니다.')
+        }
+        function goShopping() {
+            alert('메인 페이지로 이동합니다.')
+        }
+        function goToCart() {
+            alert('상품이 장바구니에 추가되었습니다.')
+        }
+
+    </script>
+</head>
+<body>
+    <div class="img"></div>
+    <div class="info">
+        <h2>제품명: 2019 월드시리즈 챔피언 모자!!</h2>
+        <p>
+            <h2>(feat. 워싱턴 내셔널스)</h2>
+        </p>
+        <p>
+        <h4>가격: 33,000원/개 (*7/17까지 주문 시 무료배송)</h4>
+        <p>주목하세요!! 여기, 2019 월드시리즈 우승팀인 워싱턴 내셔널스의 Limited Edition 모자가 있습니다!
+            메이저리그 30개 팀들의 치열한 경쟁을 뚫고 월드시리즈에 진출하여 7차전 승부 끝에 기적적으로 우승을 거머쥔 워싱턴 내셔널스,
+            그 위대한 여정을 기념하기 위해 챔피언 패치를 단 내셔널스의 모자가 한정판으로 출시되었습니다:)
+            다시는 출시되지 않을 한정판을 저렴하게 구입하세요!
+        </p>
+    </div>
+    <div class="info">
+        <div class="input-group-top">
+            <div class="input-group-middle">
+                <span class="input-group-text" id="basic-cap">주문자 이름</span>
+            </div>
+            <input type="text" class="form-control" id="order-name" aria-describedby="basic-cap">
+        </div>
+        <div class="input-group-top">
+            <div class="input-group-middle">
+                <label class="input-group-text" for="inputGroupSelect01">수량</label>
+            </div>
+            <select class="custom-select" id="order-count">
+                <option selected value=""> -- 수량을 선택하세요 --</option>
+                <option value="1">1개</option>
+                <option value="2">2개</option>
+                <option value="3">3개</option>
+                <option value="4">4개(4개 구매 시 1개 무료 증정=4+1이벤트)</option>
+            </select>
+        </div>
+        <div class="option">
+            <tr>
+                <td colspan="1">
+                    <div class="opt-wrap">
+                        <dl>
+                            <h5>사이즈</h5>
+                            <dd>
+                                <select name="optionlist[]" onchange="change_option(this, 'basic');" label="사이즈" opt_type="SELECT" opt_id="1" opt_mix="Y" require="Y" opt_mandatory="Y" class="basic_option">
+
+                                    <option value="">옵션 선택</option>
+
+                                    <option value="0" title="7(55.8cm)" matrix="1" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">7(55.8cm)</option>
+
+                                    <option value="1" title="718(56.8cm)" matrix="2" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">718(56.8cm)</option>
+
+                                    <option value="2" title="714(57.7cm)" matrix="3" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">714(57.7cm)</option>
+
+                                    <option value="3" title="738(58.7cm)" matrix="4" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">738(58.7cm)</option>
+
+                                    <option value="4" title="712(59.6cm)" matrix="5" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">712(59.6cm)</option>
+
+                                    <option value="5" title="758(60.6cm)" matrix="6" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">758(60.6cm)</option>
+
+                                    <option value="6" title="734(61.5cm)" matrix="7" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">734(61.5cm)</option>
+
+                                    <option value="7" title="778(62.5cm)" matrix="8" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">778(62.5cm)</option>
+
+                                    <option value="8" title="8(63.5cm)" matrix="9" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">8(63.5cm)</option>
+
+                                </select>
+
+                            </dd>
+                        </dl>
+                        <input type="hidden" name="mulopt">
+                        <input type="hidden" name="opttype">
+                        <input type="hidden" name="optselect">
+                    </div>
+                </td>
+            </tr>
+        </div>
+        <div class="input-group-top">
+            <div class="input-group-middle">
+                <span class="input-group-text" id="basic-cap">도로명 주소</span>
+            </div>
+            <input type="text" class="form-control" id="order-address" aria-describedby="basic-addon3">
+        </div>
+        <div class="input-group-top">
+            <div class="input-group-middle">
+                <span class="input-group-text" id="basic-cap">연락처</span>
+            </div>
+            <input type="text" class="form-control" id="order-phone" aria-describedby="basic-addon3">
+        </div>
+        <div class="order">
+            <button onclick="Click()" type="button" class="btn btn-primary">주문하기 Click!</button>
+        </div>
+    </div>
+    <div class="cart_layerpop" id="hdivCartLayerPopup">
+		<div class="action_area">
+			<a href="javascript:;" onclick="goShopping();" class="btn_shopping">쇼핑계속 하기</a>
+			<p>
+                <a href="javascript:;" onclick="goToCart();" class="btn_cart">장바구니 추가</a>
+            </p>
+		</div>
+	</div>
+
+</body>
+</html>
