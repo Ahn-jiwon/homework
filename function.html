@@ -4,6 +4,47 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script>
+        function currency() {
+            $("#exchange-rate").empty()
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+                    for(let i=0;i<response.length;i++){
+                        if(response[i]['name']=="USDKRW=X"){
+                            let US_Rate=response[i]['rate'];
+                            let USD_Rate=parseInt(US_Rate)
+                            let URateHtml=`<span>${USD_Rate}</span>`
+                            $("#exchange-rate").append(URateHtml)
+
+                        }
+
+
+                    }
+                }
+            })
+        }
+        function currency_J() {
+            $("#rate-box").empty()
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+                    for(let i=0;i<response.length;i++){
+                        if(response[i]['name']=="JPYKRW=X"){
+                            let JP_Rate=response[i]['rate'];
+                            let JPY_Rate=parseInt(JP_Rate)
+                            let JRateHtml=`<span>${JPY_Rate}</span>`
+                            $("#rate-box").append(JRateHtml)
+                        }
+
+
+                    }
+                }
+            })
+        }
         function order() {
             alert('주문이 완료되었습니다.')
         }
@@ -13,6 +54,14 @@
 <body>
     <div class="order">
             <button onclick="order()" type="button" class="btn btn-primary">주문하기</button>
+    </div>
+    <div class="exchange-rate_button">
+           <button onclick="currency()" type="button" class="btn btn-outline-warning">달러-원 환율(클릭해서 보기): <span id="exchange-rate" class="exchange-color">
+           </span>원</button>
+    </div>
+    <div class="rate-box_button">
+        <button onclick="currency_J()" type="button" class="btn btn-outline-warning">엔화-원 환율(클릭해서 보기): <span id="rate-box" class="exchange-color">
+           </span>원</button>
     </div>
 </body>
 </html>

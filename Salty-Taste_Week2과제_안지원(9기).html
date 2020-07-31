@@ -35,9 +35,11 @@
             width: 500px;
             height: 300px
         }
+        h3 {
+            color: red;
+        }
 
-
-        h2, h4 {
+        h2, h3, h4 {
             display: inline
         }
 
@@ -48,7 +50,10 @@
            text-align: left;
         }
 
-
+        .rate_box_class{
+            text-align: left;
+            color: blue;
+        }
     </style>
 
     <script>
@@ -84,44 +89,26 @@
             alert('상품이 장바구니에 추가되었습니다.')
         }
 
-        function currency() {
-            $("#exchange-rate").empty()
+        $(document).ready(function() {
+            alert('로딩 완료!')
             $.ajax({
                 type: "GET",
                 url: "https://api.manana.kr/exchange/rate.json",
                 data: {},
                 success: function (response) {
-                    for(let i=0;i<response.length;i++){
-                        if(response[i]['name']=="USDKRW=X"){
-                            let USD_Rate=response[i]['rate'];
-                            let URateHtml=`<span>${USD_Rate}</span>`
-                            $("#exchange-rate").append(URateHtml)
-                        }
-
-
+                    for (let i = 0; i < response.length; i++) {
+                        UrateHtml=response[1]['rate']
+                        UnowHtml=parseInt(UrateHtml)
+                        JrateHtml=response[2]['rate']
+                        JnowHtml=parseInt(JrateHtml)
+                        $("#rate_box_id").text(UnowHtml+"원")
+                        $("#rate_box_id2").text(JnowHtml+"원")
                     }
                 }
             })
-        }
-        function currency_J() {
-            $("#rate-box").empty()
-            $.ajax({
-                type: "GET",
-                url: "https://api.manana.kr/exchange/rate.json",
-                data: {},
-                success: function (response) {
-                    for(let i=0;i<response.length;i++){
-                        if(response[i]['name']=="JPYKRW=X"){
-                            let JPY_Rate=response[i]['rate'];
-                            let JRateHtml=`<span>${JPY_Rate}</span>`
-                            $("#rate-box").append(JRateHtml)
-                        }
+        })
 
 
-                    }
-                }
-            })
-        }
 
     </script>
 </head>
@@ -130,24 +117,18 @@
     <div class="info">
         <h2>제품명: 2019 월드시리즈 챔피언 모자!!</h2>
         <p>
-            <h2>(feat. 워싱턴 내셔널스)</h2>
+            <h3>(feat. 워싱턴 내셔널스)</h3>
         </p>
         <p>
-        <h4>가격: 33,000원/개 (*7/17까지 주문 시 무료배송)</h4>
+        <h4>가격: 33,000원/개 (마감임박!!)</h4>
         <p>주목하세요!! 여기, 2019 월드시리즈 우승팀인 워싱턴 내셔널스의 Limited Edition 모자가 있습니다!
             메이저리그 30개 팀들의 치열한 경쟁을 뚫고 월드시리즈에 진출하여 7차전 승부 끝에 기적적으로 우승을 거머쥔 워싱턴 내셔널스,
             그 위대한 여정을 기념하기 위해 챔피언 패치를 단 내셔널스의 모자가 한정판으로 출시되었습니다:)
             다시는 출시되지 않을 한정판을 저렴하게 구입하세요!
         </p>
-    <div class="exchange-rate_button">
-           <button onclick="currency()" type="button" class="btn btn-outline-warning">달러-원 환율(클릭해서 보기): <span id="exchange-rate" class="exchange-color">
-           </span>원</button>
-    </div>
-    <div class="rate-box_button">
-        <button onclick="currency_J()" type="button" class="btn btn-outline-warning">엔화-원 환율(클릭해서 보기): <span id="rate-box" class="exchange-color">
-           </span>원</button>
-    </div>
-        aeseprprprp
+
+    <p class="rate_box_class">달러-원 환율: <span id="rate_box_id">(원)</span></p>
+    <p class="rate_box_class">엔화-원 환율: <span id="rate_box_id2">(원)</span></p>
     </div>
     <div class="info">
         <div class="input-group-top">
