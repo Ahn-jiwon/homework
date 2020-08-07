@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>JW Shopping Mall</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+        * {
+            font-family: 'Black Han Sans', sans-serif;
+            width: 500px;
+            margin: auto;
+            text-align: center;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            font-weight: lighter;
+            background-color: lightyellow;
+        }
+
+        .img {
+            background-image: url('https://scontent.ficn6-1.fna.fbcdn.net/v/t1.0-9/74611496_3184133558294594_921823277347766272_o.jpg?_nc_cat=107&_nc_sid=730e14&_nc_ohc=ZC4Zx7O6FsgAX8r85Dx&_nc_ht=scontent.ficn6-1.fna&oh=6c46963939212ea4ddc39ae3513276b3&oe=5F337ECF');
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+
+            width: 500px;
+            height: 300px
+        }
+        h3 {
+            color: red;
+        }
+
+        h2, h3, h4 {
+            display: inline
+        }
+
+        .order_box {
+            text-align: center
+        }
+        h5 {
+           text-align: left;
+        }
+
+        .rate_box_class{
+            text-align: left;
+            color: blue;
+        }
+    </style>
+
+    <script>
+
+
+
+
+        function goShopping() {
+            alert('메인 페이지로 이동합니다.')
+            window.location.reload()
+        }
+        function goToCart() {
+            alert('상품이 장바구니에 추가되었습니다.')
+            window.location.reload()
+        }
+
+        $(document).ready(function() {
+            alert('로딩 완료!')
+            $.ajax({
+                type: "GET",
+                url: "https://api.manana.kr/exchange/rate.json",
+                data: {},
+                success: function (response) {
+                    for (let i = 0; i < response.length; i++) {
+                        UrateHtml=response[1]['rate']
+                        UnowHtml=parseInt(UrateHtml)
+                        JrateHtml=response[2]['rate']
+                        JnowHtml=parseInt(JrateHtml)
+                        $("#rate_box_id").text(UnowHtml+"원")
+                        $("#rate_box_id2").text(JnowHtml+"원")
+                    }
+                }
+            })
+            ShowList();
+        })
+        function ShowList() {
+            // Get 방식으로 입력받은 정보 보여주기
+            $.ajax({
+                type: "GET",
+                url: "/order",
+                data: {},
+                success: function (response) {
+                    if (response["result"] == "success") {
+                        let orders = response['orders']
+                        for(let i = 0; i < orders.length; i++) {
+                            MakeTable(orders[i])
+                        }
+                        alert(response['msg']);
+                    } else {
+                        alert('리뷰를 받아오지 못했습니다.')
+                    }
+                }
+            })
+        }
+        function MakeTable(onelist) {
+            // 테이블 만들기
+            let name=onelist['name']
+            let count=onelist['count']
+            let size=onelist['size']
+            let address=onelist['address']
+            let contact=onelist['contact']
+            let list_temp=`<tr>
+                                <td>${name}</td>
+                                <td>${count}</td>
+                                <td>${size}</td>
+                                <td>${address}</td>
+                                <td>${contact}</td>
+                            </tr>`
+            $('#order-list').append(list_temp)
+        }
+
+        function AddList() {
+            // 입력값 받기(입력 X시 Alert!)
+            let name = $("#order-name").val();
+            let count = $("#order-count").val();
+            let size = $("#order-size").val();
+            let address = $("#order-address").val();
+            let contact = $("#order-contact").val();
+            if (name == "") {
+                alert("이름을 입력해주세요.");
+                $('#order-name').focus()
+                return
+            } else if (count == "") {
+                alert("수량이 선택되지 않았습니다.");
+                $('#order-count').focus()
+                return
+            } else if (size == "") {
+                alert("사이즈를 선택해주세요.");
+                $('#order-size').focus()
+                return
+            } else if (address == "") {
+                alert("주소가 입력되지 않았습니다.");
+                $('#order-address').focus()
+                return
+            } else if (address.length < 11) {
+                alert("도로명 주소를 제대로 입력해주세요.")
+            } else if (contact == "") {
+                alert("연락처를 입력해주세요.")
+                $('#order-contact').focus()
+                return
+            } else if (contact.length != 11) {
+                alert("번호를 제대로 입력해주세요.")
+            } else {
+                // #포스트 방식으로 주문목록에 추가
+                $.ajax({
+                    type: "POST",
+                    url: "/order",
+                    data: {
+                        'name_give': name,
+                        'count_give': count,
+                        'size_give': size,
+                        'address_give': address,
+                        'contact_give': contact
+                    },
+                    success: function (response) {
+                        if (response["result"] == "success") {
+                            alert(response["msg"]);
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+        }
+
+
+
+        
+
+        
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="img"></div>
+        <div class="info">
+            <h2>제품명: 2019 월드시리즈 챔피언 모자!!</h2>
+            <p>
+                <h3>(feat. 워싱턴 내셔널스)</h3>
+            </p>
+            <p>
+            <h4>가격: 33,000원($2.79)/개 (마감임박!!)</h4>
+            <p>주목하세요!! 여기, 2019 월드시리즈 우승팀인 워싱턴 내셔널스의 Limited Edition 모자가 있습니다!
+                메이저리그 30개 팀들의 치열한 경쟁을 뚫고 월드시리즈에 진출하여 7차전 승부 끝에 기적적으로 우승을 거머쥔 워싱턴 내셔널스,
+                그 위대한 여정을 기념하기 위해 챔피언 패치를 단 내셔널스의 모자가 한정판으로 출시되었습니다:)
+                다시는 출시되지 않을 한정판을 저렴하게 구입하세요!
+            </p>
+
+        <p class="rate_box_class">달러-원 환율: <span id="rate_box_id">(원)</span></p>
+        <p class="rate_box_class">엔화-원 환율: <span id="rate_box_id2">(원)</span></p>
+        </div>
+        <div class="info">
+            <div class="input-group-top">
+                <div class="input-group-middle">
+                    <span class="input-group-text" id="cap1">주문자 이름</span>
+                </div>
+                <input type="text" class="form-control" id="order-name" aria-describedby="basic">
+            </div>
+            <div class="input-group-top">
+                <div class="input-group-middle">
+                    <label class="input-group-text" for="inputGroupSelect01">수량</label>
+                </div>
+                <select class="custom-select" id="order-count">
+                    <option selected value="">수량을 선택하세요</option>
+                    <option value="1">1개</option>
+                    <option value="2">2개</option>
+                    <option value="3">3개</option>
+                    <option value="4">4개(4개 구매 시 1개 무료 증정=4+1이벤트)</option>
+                </select>
+            </div>
+            <div class="option">
+                <tr>
+                    <td colspan="1">
+                        <div class="opt-wrap">
+                            <dl>
+                                <h5>사이즈</h5>
+                                <dd>
+                                    <select name="optionlist[]" label="Size" opt_type="SELECT" opt_id="1" opt_mix="Y" require="Y" opt_mandatory="Y" class="basic_option" id="order-size">
+
+                                        <option value="">옵션 선택</option>
+
+                                        <option value="0" title="7(55.8cm)-SS" matrix="1" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">7(55.8cm)-SS</option>
+
+                                        <option value="1" title="718(56.8cm)-S" matrix="2" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">718(56.8cm)-S</option>
+
+                                        <option value="2" title="714(57.7cm)-M" matrix="3" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">714(57.7cm)-M</option>
+
+                                        <option value="3" title="738(58.7cm)-L" matrix="4" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">738(58.7cm)-L</option>
+
+                                        <option value="4" title="712(59.6cm)-L+" matrix="5" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">712(59.6cm)-L+</option>
+
+                                        <option value="5" title="758(60.6cm)-XL" matrix="6" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">758(60.6cm)-XL</option>
+
+                                        <option value="6" title="734(61.5cm)-XL+" matrix="7" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">734(61.5cm)-XL+</option>
+
+                                        <option value="7" title="778(62.5cm)-XXL" matrix="8" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">778(62.5cm)-XXL</option>
+
+                                        <option value="8" title="8(63.5cm)-XXL+" matrix="9" price="0" sto_id="0" dis_sto_price="" dis_opt_price="" org_opt_price="0">8(63.5cm)-XXL+</option>
+
+                                    </select>
+                                </dd>
+                            </dl>
+                        </div>
+                    </td>
+                </tr>
+            </div>
+            <div class="input-group-top">
+                <div class="input-group-middle">
+                    <span class="input-group-text" id="cap2">도로명 주소</span>
+                </div>
+                <input type="text" class="form-control" id="order-address" aria-describedby="basic">
+            </div>
+            <div class="input-group-top">
+                <div class="input-group-middle">
+                    <span class="input-group-text" id="cap3">연락처(11자리 번호를 -빼고 입력하기)</span>
+                </div>
+                <input type="text" class="form-control" id="order-contact" aria-describedby="basic">
+            </div>
+        </div>
+        <div class="order_box">
+                <button onclick="AddList()" type="button" class="btn btn-primary">주문하기 Click!</button>
+
+            <div class="cart_layerpop" id="hdivCartLayerPopup">
+                <div class="action_area">
+                    <a href="javascript:" onclick="goShopping();" class="btn_shopping">쇼핑계속 하기</a>
+                    <p>
+                        <a href="javascript:" onclick="goToCart();" class="btn_cart">장바구니 추가</a>
+                    </p>
+                </div>
+            </div>
+         </div>
+        <div class="list">
+            <table class="table table-striped">
+                    <thead>
+                    <tr>
+                            <th scope="col">이름</th>
+                            <th scope="col">수량</th>
+                            <th scope="col">사이즈</th>
+                            <th scope="col">도로명주소</th>
+                            <th scope="col">연락처</th>
+                    </tr>
+                    </thead>
+                    <tbody id="order-list">
+                    <tr>
+                        <td>Mike Trout</td>
+                        <td>3</td>
+                        <td>XL</td>
+                        <td>USA, California 149</td>
+                        <td>01012345678</td>
+                    </tr>
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
